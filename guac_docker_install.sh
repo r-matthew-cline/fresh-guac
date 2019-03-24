@@ -37,11 +37,11 @@ read -p 'External Port: ' external_port
 
 ### Start the guacd server ###
 echo 'Starting guacd docker image...'
-docker run --name guacd --restart unless-stopped -d guacamole/guacd
+docker run --name guacd --restart always -d guacamole/guacd
 
 ### Start and configure the mysql container ###
 echo 'Starting mysql docker image...'
-docker run --name guac_mysql --restart unless-stopped \
+docker run --name guac_mysql --restart always \
 	-e MYSQL_ROOT_PASSWORD=$mysql_root_password \
 	-e MYSQL_USER=$guac_db_user \
 	-e MYSQL_PASSWORD=$guac_db_user_password \
@@ -52,7 +52,7 @@ docker run --name guac_mysql --restart unless-stopped \
 
 ### Start the guacamole web app ###
 echo 'Starting the guacamole web application..."'
-docker run --name guacamole --restart unless-stopped\
+docker run --name guacamole --restart always\
 	--link guacd:guacd \
 	--link guac_mysql:mysql \
 	-e MYSQL_DATABASE=$guac_db \
